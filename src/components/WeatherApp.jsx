@@ -2,11 +2,23 @@ import sunny from '../assets/images/sunny.png';
 import snowy from '../assets/images/snowy.png';
 import rainy from '../assets/images/rainy.png';
 import cloudy from '../assets/images/cloudy.png';
+import { useState } from 'react';
 
 const WeatherApp = () => {
     const api_key = "156fb693b088b17398963b099194a060";
-    const search =()=>{
-        const url ='https://api.openweathermap.org/data/2.5/weather?q=London&appid=156fb693b088b17398963b099194a060'
+    const [location,setLocation] = useState['']
+    const [data,setData] =useState({})
+
+    const handleInputChange = ()=>{
+        setLocation(e.target.value)
+    }
+    const search =async ()=>{
+        const url =`https://api.openweathermap.org/data/2.5/weather?q=${api_key}&units=Metric&appid=${api_key}`
+        const res =await fetch(url)
+        const searchData = await res.json()
+        console.log(searchData)
+        setData(searchData)
+        setLocation('')
     }
   return (
     <div className="container">
@@ -17,8 +29,8 @@ const WeatherApp = () => {
                     <div className="location">London</div>
                 </div>
                 <div className="search-bar">
-                    <input type="text" placeholder="Enter Location" />
-                    <i className="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Enter Location" value={location} onChange={handleInputChange} />
+                    <i className="fa-solid fa-magnifying-glass" onClick={search}></i>
                 </div>
             </div>
             <div className="weather">
