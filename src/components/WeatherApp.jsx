@@ -4,6 +4,10 @@ import rainy from '../assets/images/rainy.png';
 import cloudy from '../assets/images/cloudy.png';
 
 const WeatherApp = () => {
+    const api_key = "156fb693b088b17398963b099194a060";
+    const search =()=>{
+        const url ='https://api.openweathermap.org/data/2.5/weather?q=London&appid=156fb693b088b17398963b099194a060'
+    }
   return (
     <div className="container">
         <div className="weather-app">
@@ -25,11 +29,13 @@ const WeatherApp = () => {
                 <div className="weather-data">
                     <div className="humidity">
                         <div className="data-name">Humidity</div>
-                        <i className="fa-solid fa-droplet">35%</i>
+                        <i className="fa-solid fa-droplet"></i>
+                        <div className='data'>35%</div>
                     </div>
                     <div className="wind">
                         <div className="data-name">wind</div>
-                        <i className="fa-solid fa-wind">3 km/h</i>
+                        <i className="fa-solid fa-wind"></i>
+                        <div className='data'>3 km/h</div>
                     </div>
                 </div>
             </div>
