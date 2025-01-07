@@ -2,6 +2,7 @@ import sunny from '../assets/images/sunny.png';
 import snowy from '../assets/images/snowy.png';
 import rainy from '../assets/images/rainy.png';
 import cloudy from '../assets/images/cloudy.png';
+import loadingGif from '../assets/images/loading.gif'
 import { useState ,useEffect} from 'react';
 
 
@@ -9,15 +10,18 @@ import { useState ,useEffect} from 'react';
 const WeatherApp = () => {
     const api_key = "156fb693b088b17398963b099194a060";
     const [location,setLocation] = useState('')
+    const [loading,setLoading] =useState(false)
     const [data,setData] =useState({})
 
     useEffect(()=>{
         const fetchDefaultWeather = async()=>{
+           setLoading(true)
            const defaultLocation ="Hyderabad"
            const url =`https://api.openweathermap.org/data/2.5/weather?q=${defaultLocation}&units=Metric&appid=${api_key}`
            const res = await fetch(url)
            const defaultData = await res.json()
            setData(defaultData)
+           setLoading(false)
         }
         fetchDefaultWeather()
        },[])
@@ -31,11 +35,15 @@ const WeatherApp = () => {
             const url =`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=Metric&appid=${api_key}`
             const res =await fetch(url)
             const searchData = await res.json()
-            console.log(searchData)
+           if(searchData.cod !== 200){
+            setData({notFound:true})
+           }
+           else{
             setData(searchData)
             setLocation('')
+           } 
+           setLoading(false)
         }
-       
     }
     const handleKeyDown =(e)=>{
         if(e.key==="Enter"){
@@ -87,8 +95,9 @@ const WeatherApp = () => {
                     <i className="fa-solid fa-magnifying-glass" onClick={search}></i>
                 </div>
             </div>
-            <div className="weather">
-                <img src={weatherImage} alt="sunny" />
+            {loading?(<img className='loader' src={loadingGif} alt='loading'/>): data.notFound?(<div className='not-fount'>Not Found Result</div>):<>
+                <div className="weather">
+                <img src={weatherImage} alt="Climate" />
                 <div className="weather-type">{data.weather ? data.weather[0].main :null }</div>
                 <div className="temp">{ data.main ? `${Math.floor(data.main.temp)}°`:null}</div>
                 <div className="weather-date">{formattedDate}</div>
@@ -105,6 +114,9 @@ const WeatherApp = () => {
                     </div>
                 </div>
             </div>
+
+            </>}
+ 
         </div>
     </div>
   );

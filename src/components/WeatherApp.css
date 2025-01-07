@@ -78,6 +78,15 @@ font-size: 1.5rem;
 color: #2f2e57;
 cursor: pointer;
 }
+.loader{
+    width: 3rem;
+    margin-top: 15rem;
+}
+.not-fount{
+    font-size: 3rem;
+    color: darkslategrey;
+    cursor: pointer;
+}
 .weather-type{
     position: absolute;
     top: 48%;
